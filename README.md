@@ -4,7 +4,7 @@ Getting Started With WanSik Application
 ## Installation
 -Set up your project.
 
-	git clone git@github.com:zhangtienyong/wansik.git"
+        git clone git@github.com:zhangtienyong/wansik.git"
         cd wansik
 
 ## Create feature branch for working with your own code to avoid conflict code with teammates.

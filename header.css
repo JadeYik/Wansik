@@ -45,3 +45,7 @@ body{
 padding: 0px 50px;
 color: white !important;
 }
+
+.navbar-nav>li:hover {
+    background-color:#E7A243 ;
+}

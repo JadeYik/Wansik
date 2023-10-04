@@ -23,4 +23,4 @@ Getting Started With WanSik Application
 
         git add .
         git commit "Your message will let teammates know what to do."
-        git push –u origin <branch name>
+        git push --set-upstream origin <branch name>

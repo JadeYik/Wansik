@@ -17,5 +17,5 @@ app.get('/', (req, res) => {
 });
 
 
-
+console.log("hi")
 export default app;

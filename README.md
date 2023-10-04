@@ -4,7 +4,7 @@ Getting Started With WanSik Application
 ## Installation
 -Set up your project.
 
-        git clone git@github.com:zhangtienyong/wansik.git"
+        git clone git@github.com:zhangtienyong/wansik.git
         cd wansik
 
 ## Create feature branch for working with your own code to avoid conflict code with teammates.
@@ -22,5 +22,14 @@ Getting Started With WanSik Application
 -Git add file and commit to your branch-name
 
         git add .
-        git commit "Your message will let teammates know what to do."
+        git commit -m "Your message will let teammates know what to do."
+
+-Git push file first time
+
         git push --set-upstream origin <branch name>
+
+-Git push file second time and more
+
+        git push
+
+## Happy Coding friends

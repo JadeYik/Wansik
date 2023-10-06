@@ -54,7 +54,7 @@ color: white !important;
 .profile-class{
     background-color: brown;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -62,29 +62,43 @@ color: white !important;
 
 .profile-icon-container{
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-
-
 .profile-icon{
    margin-top: 10px;
     height: 200px;
     width: 200px;
    background-color: black;
    display: flex;
-   flex-direction: column;
+   /* flex-direction: column; */
    justify-content: center;
    align-items: center;
 }
 
-.btn-upload-icon{
-    padding: 10px 0px;
-    text-align: center;
-}
+
 
 .profile-text-container{
+    padding-top: 20px;
     text-align: left;
+    width: 500px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.profile-username,.profile-email,.profile-phone{
+    padding-top: 20px;
+}
+
+.profile-edit{
+    background-color: brown;
+    border: #E7A243 solid 2px;
+    color: black;
+}
+
+.profile-edit:hover{
+    background-color: #E7A243;
+    border: #E7A243 solid 2px;
 }

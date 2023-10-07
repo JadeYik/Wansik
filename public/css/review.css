@@ -32,6 +32,9 @@
     color:black;
 }
 
+body{
+    background-color: #E7A243;
+}
 
 body{
     background-color: #e9e3df;
@@ -104,5 +107,7 @@ color: white !important;
 }
 .footer{
     background-color: black;
-    color:rgb(136, 136, 136);
+}
+.testBlack{
+    color:black;
 }

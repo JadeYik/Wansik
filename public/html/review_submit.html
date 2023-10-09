@@ -55,18 +55,38 @@
                   
                         </ul>
                     </nav>
-                    <div class="review-container">
-                        <div class="review card">
-                            <div class="card-body">  
-                              <h5 class="title">MM</h5>
-                              <p class="content">MM</p>
-                              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                            </div>
-                            <img src="/uploads/image-1696830924859-1.jpeg" class="card-img-bottom">
-                        </div>`
-                    </div>
 
-                    <div class="footer container">
+                    <form id="reviewFrom">
+                      <div class="mb-3">
+                        <label for="userName">user</label>
+                        <input id="userName"class="form-control"placeHolder="userName">
+                      </div>
+                      <div class="mb-3">
+                        <label for="title">Title</label>
+                        <input id="title"class="form-control"placeHolder="Title">
+                      </div>
+                      <div class="mb-3">
+                        <label for="content" class="form-label">Example textarea</label>
+                        <textarea class="form-control" id="content" rows="10"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="image" class="form-label">image</label>
+                        <input class="form-control" type="file" id="image">
+                      </div>
+
+                        <input type="submit" value="Submit"/>
+                      </form>
+               
+                <span id="rateMe1">
+                  <i class="py-2 px-1">Ranking</i>
+                  <i class="py-2 px-1 checked fas fa-star VeryBad"></i>
+                  <i class="py-2 px-1 checked fas fa-star " data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Poor"></i>
+                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="OK"></i>
+                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Good"></i>
+                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Excellent"></i>
+                </span>
+                
+<div class="footer container">
   <div>Contact us</div>
   <div>Address: Unit C-E, 11/F, 59-67 Bonham Strand West Golden Sun Centre, Sheung Wan</div>
   <div>Phone: +852 97256400</div>

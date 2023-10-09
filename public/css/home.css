@@ -74,6 +74,7 @@ body{
     display: flex;
     justify-content: space-evenly;
     background-color: black !important;
+    margin-bottom: 10px;
 }
 
 .nav-item{

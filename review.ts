@@ -4,95 +4,104 @@ import { format } from "date-fns";
 import express from "express";
 import formidable from "formidable";
 import { client } from "./db";
+import path from "path"
 dotenv.config();
 
-const uploadDir = "uploads";
+const uploadDir = "public/uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.post("/review/submit", async (req, res) => {
+//submit review
+app.post("/html/review_submit.html/submit/rest/:rName", async (req, res) => {
   try {
     // "dial-in" to the postgres server
-
+    let counter =0
+    const userName = "Ben"//req.params.name
+    const restaurantName = req.params.rName
     const form = formidable({
       uploadDir,
       keepExtensions: true,
       maxFiles: 20,
-      maxFileSize: 200 * 1024 ** 3, // the default limit is 200KB
+      maxFileSize: 200 * 1024 ** 3,
+      filename: (_originalName, _originalExt, part, _form) => {
+        let fieldName = part.name
+        let timestamp = Date.now()
+        let ext = part.mimetype?.split('/').pop()
+        counter++
+        return `${fieldName}-${timestamp}-${counter}.${ext}`
+      },
+      
       filter: (part) => part.mimetype?.startsWith("image/") || false,
     });
 
     form.parse(req, async (err, fields, files) => {
-      console.log({ err, fields, files });
-      const userName = fields.userName;
-      const restaurantIdValue = fields.restaurantIdValue;
-   
-      const imageName = (files.image as formidable.File)?.newFilename;
-      const reviewContentValue = fields.content;
-      const reviewTitleValue = fields.title;
-      const reviewCleanRtValue = fields.cleanR;
-      const reviewTasteRtValue = fields.tasteR;
-      const reviewSerRtValue = fields.serR;
-      const reviewEnvRtValue = fields.envR;
-      const reviewCPRValue = fields.cpR;
-      const reviewTotalRtValue = fields.totalR;
-
-      
-
-      console.log(userName);
       const userIDJson = await client.query(`SELECT id FROM USERS WHERE NAME = $1`, [userName]);
-    
       const userIDValue = userIDJson.rows[0].id;
-      const rest = {
-        userId: userIDValue,
-        restaurantId: restaurantIdValue,
-        dateOfReview: format(new Date(), "MM/dd/yyyy"),
-        timeOfReview: format(new Date(), "HH:mm"),
-        reviewContent: reviewContentValue,
-        imgName: imageName,
-      };
+      const restaurantIdJson = await client.query(`SELECT id FROM RESTAURANTS WHERE NAME = $1`, [restaurantName]);
+      const restaurantIdValue = restaurantIdJson.rows[0].id;
+      const rest = [
+        fields.content,
+        format(new Date(), "MM/dd/yyyy"),
+        format(new Date(), "HH:mm"),
+        userIDValue,
+        restaurantIdValue,
+        (files.image as formidable.File)?.newFilename,
+        fields.title,
+        fields.cleanR,
+        fields.tasteR,
+        fields.serR,
+        fields.envR,
+        fields.cpR,
+        fields.totalR
+      ];
 
       await client.query(
-        "INSERT INTO reviews (review_content,date_of_review,time_of_review,user_id,restaurant_id,image_upload) VALUES ($1,$2,$3,$4,$5,$6)",
-        [
-          rest.reviewContent,
-          rest.dateOfReview,
-          rest.timeOfReview,
-          rest.userId,
-          rest.restaurantId,
-          rest.imgName,
-        ]
+        "INSERT INTO reviews (review_content,date_of_review,time_of_review,user_id,restaurant_id,image_upload,title,clean_rank,taste_rank,service_rank,environment_rank,cp_rank,total_rank) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)",rest 
       );
-      
+  
     });
 
-    res.json({ success: "true" });
+  
+    res.redirect("/html/review_submit.html");
   } catch (err) {
     res.json({ success: "false", error: err + "" });
   }
 });
+//show all review
 
-app.get("/review/page/:page", async (req, res) => {
+app.get("/reviewDisplay", async (req, res)  => {
   try {
-  const page = +(req.params.page as String)*10
-  const rowsData = await client.query(`SELECT count(*) FROM reviews;`);   
-  const rowsDataValue = rowsData.rows[0].count
-  if(rowsDataValue > 10){
-    const data = await client.query("SELECT * FROM reviews LIMIT 10 OFFSET $1",[page]);
-    res.json({data})
+  // const page = + (req.params.page)*10
+  // const rowsData = await client.query(`SELECT count(*) FROM reviews;`);   
+  // const rowsDataValue = rowsData.rows[0].count
+  // if(rowsDataValue > 10){
+  //   const data = await client.query("SELECT * FROM reviews LIMIT 10 OFFSET $1",[page]);
+  //   res.json({data})
 
-  } else {
-    const data = await client.query("SELECT * FROM reviews");
+  // } else {
+    const data = await client.query(`SELECT 
+    reviews.image_upload, 
+    reviews.date_of_review, 
+    reviews.time_of_review, 
+    reviews.review_content, 
+    reviews.title,
+    restaurants.name as restaurants_name,
+    users.name as user_name 
+    FROM reviews
+    inner join users on users.id = reviews.user_id
+    inner join restaurants on restaurants.id = reviews.restaurant_id;`);
     res.json({data})
   }
-
-  } catch (err) {
+// } 
+  
+  catch (err) {
     res.json({ success: "false", error: err + "" });
   }
 });
+
+app.use(express.static(path.join(__dirname,"public")))
 
 // Start the server
 const PORT = 8080;

@@ -117,3 +117,24 @@ color: white !important;
 .checked{
     color:orange;
 }
+
+.circleImg{
+    clip-path: circle(40%);
+    width: 150px;
+}
+
+.midUsername{
+    font-size: 20px;
+}
+
+.card-img-bottom{
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+.reviewCard{
+    margin:5px;
+    /* height:500px; */
+}
+.imgHeight{
+    height:500;
+}

@@ -14,11 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //submit review
-app.post("/html/review_submit.html/submit/rest/:rName", async (req, res) => {
+app.post("/html/review_submit.html/submit/rest/:rName/user/:Name", async (req, res) => {
   try {
     // "dial-in" to the postgres server
     let counter =0
-    const userName = "Ben"//req.params.name
+    const userName = req.params.Name//req.params.name
     const restaurantName = req.params.rName
     const form = formidable({
       uploadDir,
@@ -73,14 +73,10 @@ app.post("/html/review_submit.html/submit/rest/:rName", async (req, res) => {
 
 app.get("/reviewDisplay", async (req, res)  => {
   try {
-  // const page = + (req.params.page)*10
-  // const rowsData = await client.query(`SELECT count(*) FROM reviews;`);   
-  // const rowsDataValue = rowsData.rows[0].count
-  // if(rowsDataValue > 10){
-  //   const data = await client.query("SELECT * FROM reviews LIMIT 10 OFFSET $1",[page]);
-  //   res.json({data})
-
-  // } else {
+  // const page =+(req.query.page as string) 
+  // if (page){
+  const rowsData = await client.query(`SELECT count(*) FROM reviews;`);   
+  const rowsDataValue = ((rowsData.rows[0].count)as string)
     const data = await client.query(`SELECT 
     reviews.image_upload, 
     reviews.date_of_review, 
@@ -88,11 +84,13 @@ app.get("/reviewDisplay", async (req, res)  => {
     reviews.review_content, 
     reviews.title,
     restaurants.name as restaurants_name,
-    users.name as user_name 
+    users.name as user_name,
+    users.profile_image  as user_profile_image
     FROM reviews
     inner join users on users.id = reviews.user_id
     inner join restaurants on restaurants.id = reviews.restaurant_id;`);
-    res.json({data})
+
+    res.json({reviewNumbers:rowsDataValue,reviewData:data.rows}) 
   }
 // } 
   

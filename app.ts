@@ -4,6 +4,7 @@ import path from 'path';
 import formidable from 'formidable'
 import fs from 'fs'
 import { client } from "./db";
+import expressSession from "express-session";
 
 
 const app = express();
@@ -17,6 +18,13 @@ const PROFILE_JSON_PATH = path.join(__dirname, "database", "profile.json");
 // Third party middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
+
+app.use((req, _res, next) => {
+  console.log(`Request Path: ${req.path}  Method: ${req.method}`)
+  next();
+});
 
 
 app.post("/profile", async (req, res) => {
@@ -57,7 +65,7 @@ app.post("/profile", async (req, res) => {
 })
 
 app.get("/profile", async (req, res) => {
- 
+
   try{
   const profileReqData = await client.query(`SELECT * FROM users`)
   console.log(profileReqData)
@@ -69,9 +77,10 @@ app.get("/profile", async (req, res) => {
  
 })
 
-app.put("/profile/:id", async (req: Request, res: Response) => {
+app.put("/profile/:id", async (req, res) => {
   
-  const id: string = req.params.id;
+  const id = req.params.id;
+  // const id = 1
   const form = formidable({ 
     multiples: true,  
     uploadDir: usericonDir,
@@ -97,7 +106,7 @@ app.put("/profile/:id", async (req: Request, res: Response) => {
     const { profile_image } = files;
 
     try {
-      const selectQuery: string = 'SELECT * FROM users WHERE id = $1';
+      const selectQuery = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await client.query(selectQuery, [id]);
 
       if (rows.length === 0) {
@@ -123,38 +132,6 @@ app.put("/profile/:id", async (req: Request, res: Response) => {
     }
   });
 });
-
-
-
-
-// app.put("/profile/:id", async (req, res) => {
-//   const id = req.params.id;
-  
-//   const form = formidable({ multiples: true });
-
-//   form.parse(req, async (err, fields, files) => {
-//     if (err) {
-//       console.error("Error parsing form data:", err);
-//       res.json({ success: false, message: "Error parsing form data" });
-//       return;
-//     }
-
-//     const { name, email, phone } = fields;
-//     const { profile_image } = files;
-
-//     try {
-      
-//       const updateQuery = 'UPDATE users SET name = $1, email = $2, phone = $3, profile_image = $4 WHERE id = $5';
-//       const profileupdata =  await client.query(updateQuery, [name, email, phone, (profile_image as formidable.File)?.newFilename, id]);
-//       console.log("Profile data updated successfully");
-//       res.json({ success: true, message: "Profile data updated successfully",profileupdata });
-//     } catch (err) {
-//       console.error("Error updating profile data:", err);
-//       res.json({ success: false, message: "Error updating profile data" });
-//     }
-//   });
-// });
-
 
 // app.put("/profile/:id",async(req,res)=>{
 //   const id = req.params.id;
@@ -183,6 +160,7 @@ app.put("/profile/:id", async (req: Request, res: Response) => {
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Define routes handler
 app.get('/profile', (req, res) => {

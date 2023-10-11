@@ -84,6 +84,8 @@ color: white !important;
     text-align: center;
     font-weight: bold;
     font-size: 20px;
+    padding-top: 20px;
+
 }
 
 .btn-link-google{
@@ -117,6 +119,12 @@ color: white !important;
     height: 350px;
     background-color:antiquewhite;
     border: solid 2px black;
+}
+.label-register-data{
+    width: 200px;
+}
+.form-input-register{
+    width: auto;
 }
 
 .passward-rule{

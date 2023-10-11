@@ -28,7 +28,10 @@
           </div>
           <div class="col-sm-6 col-xs-12">
             <div class="user-infor">
-              <div class="user-icon">IC</div>
+              <div class="user-icon">
+                IC
+                <img scr="" alt="user-icon" />
+              </div>
               <div class="user-name">username</div>
             </div>
           </div>
@@ -63,10 +66,12 @@
 
       <div class="profile-class">
         <div class="profile-icon-container">
-          <div class="profile-icon"></div>
+          <div id="profile-icon">
+            <img src="" alt="user-icon" />
+          </div>
         </div>
 
-        <div class="profile-text-container">
+        <div id="profile-text-container">
           <div class="profile-username">Username :</div>
           <div class="profile-email">Email :</div>
           <div class="profile-phone">Phone :</div>
@@ -105,58 +110,64 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-                <!-- modal-body-->
+              <form id="profile-form">
+                <div class="modal-body">
+                  <!-- modal-body-->
+                  <div class="profile-username-input input">
+                    Username:
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Username"
+                      required
+                    />
+                  </div>
 
-                <div class="profile-username-input">
-                  Username:
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Username"
-                    required
-                  />
-                </div>
-                <div class="profile-email-input">
-                  Email:
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="email"
-                    required
-                  />
-                </div>
+                  <div class="profile-email-input input">
+                    Email:
+                    <input
+                      type="text"
+                      id="email"
+                      name="email"
+                      placeholder="email"
+                      required
+                    />
+                  </div>
 
-                <div class="profile-email-input">
-                  phone:
-                  <input
-                    type="text"
-                    name="phone"
-                    placeholder="phone"
-                    required
-                  />
-                </div>
+                  <div class="profile-email-input input">
+                    phone:
+                    <input
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      placeholder="phone"
+                      required
+                    />
+                  </div>
 
-                <div class="btn-upload-icon">
-                  Profile icon:
-                  <input type="file" name="icon" />
+                  <div class="btn-upload-icon input">
+                    Profile icon:
+                    <input type="file" name="icon" id="icon" />
+                  </div>
                 </div>
-                <!-- <div class="submit btn">
-                  <input type="submit" value="Submit" />
-                </div> -->
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="modal-submitBtn"
+                  >
                     Submit
-                </button>
-              </div>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -169,6 +180,22 @@
       crossorigin="anonymous"
     ></script>
 
+    <script src="../js/index.js"></script>
   </body>
-</html>
 
+  <template id="profile-template-output">
+    <div class="name"></div>
+    <div class="email"></div>
+    <div class="phone"></div>
+    <div class="icon">
+      <img src="" alt="user-icon" />
+    </div>
+  </template>
+
+  <template id="profile-template">
+    <div class="name"></div>
+    <div class="email"></div>
+    <div class="phone"></div>
+    <div class="icon"></div>
+  </template>
+</html>

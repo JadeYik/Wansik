@@ -148,7 +148,7 @@ app.get("/restPic",async (req,res)=>{
   try{
   const reqData = req.query.rest
   const data = await client.query('SELECT Restaurant_image FROM RESTAURANTS WHERE NAME = $1',[reqData])
-  res.json({data})
+  res.json(data.rows[0])
   } catch(err){
     res.json({success:"false",error:err+""})
   }}

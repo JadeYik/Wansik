@@ -47,11 +47,14 @@ body{
 }
 
 .logo-container{
-    background-color: black;
+    background-color: rgba(255, 255, 255, 0);
     width: 300px;
     height: 100px;
 }
-
+.logo{
+    width:auto;
+    height: 100px;
+}
 .user-infor{
     display: flex;
     text-align: center;

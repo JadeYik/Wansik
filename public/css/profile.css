@@ -35,6 +35,17 @@ body{
 
 }
 
+.user-icon>img{
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 50%;
+}
+
+#profile-icon>img{
+    max-width: 225px;
+    max-height: 225px;
+}
+
 .navbar{
     display: flex;
     justify-content: space-evenly;
@@ -52,12 +63,14 @@ color: white !important;
 
 
 .profile-class{
-    background-color: brown;
+    padding-top: 20px;
+    /* background-color: brown; */
     display: flex;
     /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
+    justify-content: space-evenly;
+    align-items: flex-start;
     text-align: center;
+
 }
 
 .profile-icon-container{
@@ -67,11 +80,11 @@ color: white !important;
     align-items: center;
     text-align: center;
 }
-.profile-icon{
+#profile-icon{
    margin-top: 10px;
     height: 200px;
     width: 200px;
-   background-color: black;
+   /* background-color: black; */
    display: flex;
    /* flex-direction: column; */
    justify-content: center;
@@ -93,7 +106,7 @@ color: white !important;
 }
 
 .profile-edit{
-    background-color: brown;
+    /* background-color: brown; */
     border: #E7A243 solid 2px;
     color: black;
 }

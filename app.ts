@@ -9,39 +9,54 @@ import expressSession from "express-session";
 
 const app = express();
 
-const usericonDir = 'usericon'
+const usericonDir = path.join(__dirname,'public','usericon')
 fs.mkdirSync(usericonDir, { recursive: true })
-
-//input profile json file
-const PROFILE_JSON_PATH = path.join(__dirname, "database", "profile.json");
 
 // Third party middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+app.use(
+  expressSession({
+    secret: "Tecky Academy teaches typescript",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+// tell typescript what type of info you should input
+declare module "express-session" {
+  interface SessionData {
+    user?: { id: number }
+  }
+}
 
 app.use((req, _res, next) => {
   console.log(`Request Path: ${req.path}  Method: ${req.method}`)
   next();
 });
 
+//fake login
+app.post("/login-dev", async (req, res) => {
+  req.session.user = { id: 1 }
+  res.json({})
+})
+
 
 app.post("/profile", async (req, res) => {
-    
-    const form = formidable({
-      uploadDir: usericonDir,
-      maxFiles: 1,
-      maxFileSize: 200 * 1024 * 1024,
-      filter: part => part.mimetype?.startsWith('image/') || false,
-      // filename
-      filename: (_originalName, _originalExt, part) => {
-        const fieldName = part.name;
-        const timestamp = Date.now();
-        const ext = part.mimetype?.split("/").pop();
-        return `${fieldName}-${timestamp}.${ext}`;
-      }
-    })
+
+  const form = formidable({
+    uploadDir: usericonDir,
+    maxFiles: 1,
+    maxFileSize: 200 * 1024 * 1024,
+    filter: part => part.mimetype?.startsWith('image/') || false,
+    // filename
+    filename: (_originalName, _originalExt, part) => {
+      const fieldName = part.name;
+      const timestamp = Date.now();
+      const ext = part.mimetype?.split("/").pop();
+      return `${fieldName}-${timestamp}.${ext}`;
+    }
+  })
   form.parse(req, async (err, fields, file) => {
     try {
       // Insert the JSON data into the database
@@ -66,23 +81,22 @@ app.post("/profile", async (req, res) => {
 
 app.get("/profile", async (req, res) => {
 
-  try{
-  const profileReqData = await client.query(`SELECT * FROM users`)
-  console.log(profileReqData)
-  res.json({success: true, message: "success", profileReqData})
-  } catch(err){
+  try {
+    const profileReqData = await client.query(`SELECT * FROM users where id = $1;`, [req.session.user?.id])
+    console.log(profileReqData.rows[0])
+    res.json({ success: true, message: "success2", result: profileReqData.rows[0] })
+  } catch (err) {
     console.log("Connot get the profile data")
-    res.json({success: false, message: "Connot get the profile data" })
+    res.json({ success: false, message: "Connot get the profile data" })
   }
- 
 })
 
 app.put("/profile/:id", async (req, res) => {
-  
-  const id = req.params.id;
-  // const id = 1
-  const form = formidable({ 
-    multiples: true,  
+  const id = 1
+  // const id = req.params.id;
+
+  const form = formidable({
+    multiples: true,
     uploadDir: usericonDir,
     maxFiles: 1,
     maxFileSize: 200 * 1024 * 1024,
@@ -93,7 +107,8 @@ app.put("/profile/:id", async (req, res) => {
       const timestamp = Date.now();
       const ext = part.mimetype?.split("/").pop();
       return `${fieldName}-${timestamp}.${ext}`;
-    } });
+    }
+  });
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -103,7 +118,8 @@ app.put("/profile/:id", async (req, res) => {
     }
 
     const { name, email, phone }: { name?: string, email?: string, phone?: string } = fields;
-    const { profile_image } = files;
+    console.log((files.profile_image as formidable.File)?.newFilename)
+    console.log(name, email, phone )
 
     try {
       const selectQuery = 'SELECT * FROM users WHERE id = $1';
@@ -120,10 +136,11 @@ app.put("/profile/:id", async (req, res) => {
       const updatedName: string = name || user.name;
       const updatedEmail: string = email || user.email;
       const updatedPhone: string = phone || user.phone;
-      const updatedProfileImage: string =  (profile_image as formidable.File)?.newFilename|| user.profile_image;
+      const updatedProfileImage: string = (files.profile_image  as formidable.File)?.newFilename || user.profile_image ;
+      const updatedUpdateTime: Date = new Date(Date.now())
 
-      const updateQuery: string = 'UPDATE users SET name = $1, email = $2, phone = $3, profile_image = $4 WHERE id = $5';
-      await client.query(updateQuery, [updatedName, updatedEmail, updatedPhone, updatedProfileImage, id]);
+      const updateQuery: string = 'UPDATE users SET name = $1, email = $2, phone = $3, profile_image = $4, updated_at = $5 WHERE id = $6';
+      await client.query(updateQuery, [updatedName, updatedEmail, updatedPhone, updatedProfileImage,updatedUpdateTime, id]);
       console.log("Profile data updated successfully");
       res.json({ success: true, message: "Profile data updated successfully" });
     } catch (err) {
@@ -160,6 +177,7 @@ app.put("/profile/:id", async (req, res) => {
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("usericon",express.static(path.join(__dirname, 'usericon')));
 
 
 // Define routes handler

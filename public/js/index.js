@@ -1,80 +1,80 @@
 let userOfProfile;
-let profileIcon;
-let templateDataOutput;
+let profileIconSqu;
+let profileIconCir;
+let usernameHeader;
 
-window.onload = () => {
+window.onload = async () => {
+  //fake login
+  await fetch("/login-dev", {
+    method: "POST",
+  });
   userOfProfile = document.querySelector("#profile-text-container");
-  profileIcon = document.querySelector("#profile-icon");
-  templateDataOutput = document.querySelector("#profile-template-output");
+  profileIconSqu = document.querySelector("#profile-icon");
+  profileIconCir = document.querySelector(".user-icon");
+  usernameHeader = document.querySelector(".user-name");
+
   getprofileForm();
+  updateProfileData();
 };
 
 async function getprofileForm() {
-  const resp = await fetch("/profile/:id");
+  const resp = await fetch("/profile");
   const profile = await resp.json();
-  const userProfile = profile.profileReqData.rows.id[3]
 
+  const getProfile = profile.result;
+  let { name, email, phone, profile_image } = getProfile;
 
+  console.log({ name, email, phone, profile_image });
 
-  function outputProfile(profile) {
-    let {name, email, phone, profile_image} = profile
-    const profileCloneOutput = templateDataOutput.content.cloneNode(true);
-
-    // Update the cloned template with new data
-    profileCloneOutput.querySelector(".profile-username").textContent = name;
-    profileCloneOutput.querySelector(".profile-email").textContent = email;
-    profileCloneOutput.querySelector(".profile-phone").textContent = phone;
-    profileCloneOutput.querySelector("#profile-icon").src = profile_image;
-
-    // Clear the original data in the output container
-    userOfProfile.innerHTML = "";
-    profileIcon.innerHTML = "";
-
-
-
-
-    // Append the updated template to the output container
-    userOfProfile.appendChild(profileCloneOutput);
-    profileIcon.appendChild(profileCloneOutput);
-    
-  }
-
-  outputProfile(profile);
-
-  // const Profile = await resp.json();
-  // usernameOfProfile.innerHTML = '';
-
-  // console.log(Profile.profileReqData.rows)
-  // console.log(Profile.profileReqData.rows[0].profile_image)
-  // console.log(usernameOfProfile)
-
-  // // Convert the image data to a Base64-encoded data URL
-  // const base64Image = Buffer.from(profile_image).toString('base64');
-  // const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-  // // Pass the data URL to the template
-  // res.render('template', { imageUrl: dataUrl });
+  userOfProfile.innerHTML = `  
+  <div class="profile-username">Username : ${getProfile.name}</div>
+  <div class="profile-email">Email : ${getProfile.email}</div>
+  <div class="profile-phone">Phone : ${getProfile.phone}</div>`;
+  profileIconSqu.innerHTML = `  <div id="profile-icon">
+  <img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
+</div>`;
+  profileIconCir.innerHTML = `   <div class="user-icon">
+            
+<img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
+</div>`;
+  usernameHeader.innerHTML = `<div class="user-name">${getProfile.name}</div>`;
 }
 
-// // const Profile = await resp.json();
-// // To show
-// const outputProfileIcon = document.querySelector(".profile-icon");
-// const outputProfileContainer = document.querySelector("#profile-text-container");
+function updateProfileData() {
+  document.querySelector("#profile-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-// // To input
-// const inputProfileName = document.querySelector("#name");
-// const inputProfileEmail = document.querySelector("#email");
-// const inputProfilePhone = document.querySelector("#phone");
-// const imageFileElement = document.querySelector("#icon");
+    const id = 1; // Set the user ID as needed
+    const form = event.target;
 
-// // Submit Btn
-// const submitButton = document.querySelector("#modal-submitBtn");
+    const formData = new FormData(form);
 
-// // Get template
-// const templateData = document.querySelector("#profile-template");
+    formData.set("name", form.name.value);
+    formData.set("email", form.email.value);
+    formData.set("phone", form.phone.value);
+    formData.set("profile_image", form.icon.files[0]);
 
-// window.onload = async () => {
-//   await initProfileForm();
-// };
+    console.log(formData);
+
+    try {
+      const response = await fetch(`/profile/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Handle the response as needed
+       
+        window.location = "/html/profile.html"
+      } else {
+        throw new Error("Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  });
+}
 
 // async function initProfileForm() {
 // //   const formData = new FormData();

@@ -27,10 +27,31 @@ async function getprofileForm() {
 
   console.log({ name, email, phone, profile_image });
 
-  userOfProfile.innerHTML = `  
-  <div class="profile-username">Username : ${getProfile.name}</div>
-  <div class="profile-email">Email : ${getProfile.email}</div>
-  <div class="profile-phone">Phone : ${getProfile.phone}</div>`;
+  userOfProfile.innerHTML = `  <div class="card">
+  <div class="card-header">
+    ${getProfile.name}  Profile
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <div class="container ">
+        <div class="row">
+          <div class="col-6 col-sm-4 text-profile-container">Username :</div>
+          <div class="col-6 col-sm-4 text-profile-container-data">${getProfile.name}</div>
+      
+          <div class="w-100 d-none d-md-block"></div>
+      
+          <div class="col-6 col-sm-4 text-profile-container">Email :</div>
+          <div class="col-6 col-sm-4 text-profile-container-data">${getProfile.email}</div>
+
+          <div class="w-100 d-none d-md-block"></div>
+      
+          <div class="col-6 col-sm-4 text-profile-container">Phone :</div>
+          <div class="col-6 col-sm-4 text-profile-container-data">${getProfile.phone}</div>
+        </div>
+      </div>
+    </blockquote>
+  </div>
+</div>`;
   profileIconSqu.innerHTML = `  <div id="profile-icon">
   <img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
 </div>`;
@@ -66,8 +87,14 @@ function updateProfileData() {
       if (response.ok) {
         const data = await response.json();
         console.log(data); // Handle the response as needed
-       
-        window.location = "/html/profile.html"
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        redirectToNewPage();
       } else {
         throw new Error("Failed to update profile");
       }
@@ -77,3 +104,8 @@ function updateProfileData() {
   });
 }
 
+function redirectToNewPage() {
+  setTimeout(() => {
+    window.location = "/html/profile.html";
+  }, 700);
+}

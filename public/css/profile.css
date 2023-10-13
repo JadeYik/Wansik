@@ -32,7 +32,8 @@ body {
 
 .user-name {
     padding: 0px 30px 0px 10px;
-
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .user-icon>img {
@@ -96,19 +97,34 @@ body {
     max-height: 200px;
 }
 
-.profile-text-container {
-    background-color:aqua;
-    padding-top: 20px;
+#profile-text-container {
     text-align: left;
-    width: 800px;
+    width: 600px;
     font-size: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.profile-username,
+/* .profile-username,
 .profile-email,
 .profile-phone {
+    padding-top: 20px;
+} */
+
+.card-header{
+    font-weight: bolder;
+}
+.card-body{
+    font-weight: bolder;
+    height: 200px;
+}
+
+.text-profile-container{
+    padding-top: 20px;
+    
+}
+.text-profile-container-data{
+    width: 250px;
     padding-top: 20px;
 }
 
@@ -148,6 +164,11 @@ body {
     background-color: #E7A243;
     border: #E7A243 2px;
     color: white;
+}
+
+.history{
+    margin-top: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .table-container {

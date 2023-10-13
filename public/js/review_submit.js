@@ -1,5 +1,7 @@
-window.onload = async () => {
-  await fetch("/login-dev", { method: "POST" });
+window.onload =    async() => {
+  async function fakeLogin() {
+  }
+  fakeLogin()
   const restName = new URLSearchParams(location.search);//URL = http://localhost:8080/html/review_submit.html?rest=MM
   const restNameData = restName.get("rest");
   restPic(restNameData)
@@ -30,3 +32,6 @@ function contentForm(restName) {
     });
   });
 }
+
+
+//Hello ben, we know what u did last summer!

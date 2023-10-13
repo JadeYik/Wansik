@@ -30,15 +30,24 @@ app.post("/login-dev", async (req, res) => {
   res.json({});
 });
 
+app.get("/uerInfo", async (req, res) => {
+  try {
+    const userEmail = "ben@g.com"//req.session.user;
+    const userName = await client.query(`SELECT name,profile_image FROM USERS WHERE EMAIL = $1`, [userEmail]);
+    //const userProIcon = await client.query(`SELECT  FROM USERS WHERE EMAIL = $1`, [userEmail]);
+    res.json(userName.rows[0]);
+  } catch (err) {
+    res.json({ success: "false", error: err + "" });
+  }
+});
 
-
-//submit review
+//submit review - Hello Ben!!!!!! Nice website!!!!!! Eat banana la!
 app.post("/reviewSubmit", async (req, res) => {
   try {
     // "dial-in" to the postgres server
     let counter = 0;
-    const userName = req.session.user;
-    const restaurantName =req.query.rest;
+    const userName = "ben@g.com"//req.session.user;
+    const restaurantName = req.query.rest;
     const form = formidable({
       uploadDir,
       keepExtensions: true,
@@ -84,7 +93,7 @@ app.post("/reviewSubmit", async (req, res) => {
       );
     });
 
-    res.json({ success: "true"});
+    res.json({ success: "true" });
   } catch (err) {
     res.json({ success: "false", error: err + "" });
   }
@@ -107,23 +116,25 @@ app.post("/reviewSubmit", async (req, res) => {
 //     res.json({ success: "false", error: err + "" });
 //   }
 // });
-app.get("/reviewTotal/q/:quantity/p/:page",async(req,res)=>{
-  const quantity =+(req.params.quantity as string)
-  const page =+(req.params.page as string)
+app.get("/reviewTotal/q/:quantity/p/:page", async (req, res) => {
+  const quantity = +(req.params.quantity as string);
+  const page = +(req.params.page as string);
   const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
-  const rowsDataValue = Math.ceil((+(rowsData.rows[0].count))/quantity);
-  res.json({reviewNumbers: rowsDataValue})
-})
+  const rowsDataValue = Math.ceil(+rowsData.rows[0].count / quantity);
+  res.json({ reviewNumbers: rowsDataValue });
+});
 app.get("/reviewDisplay/q/:quantity/p/:page", async (req, res) => {
   try {
-    const page =+(req.params.page as string)
-    const quantity =+(req.params.quantity as string)
-    const pageShow = ((page-1) * quantity )
-    let nowPageOffset  = 0
-    if (pageShow<0){
-      nowPageOffset  = 0}
-    else {nowPageOffset = pageShow}
-    
+    const page = +(req.params.page as string);
+    const quantity = +(req.params.quantity as string);
+    const pageShow = (page - 1) * quantity;
+    let nowPageOffset = 0;
+    if (pageShow < 0) {
+      nowPageOffset = 0;
+    } else {
+      nowPageOffset = pageShow;
+    }
+
     const data = await client.query(`SELECT 
     reviews.image_upload, 
     reviews.date_of_review, 
@@ -137,24 +148,24 @@ app.get("/reviewDisplay/q/:quantity/p/:page", async (req, res) => {
     inner join users on users.id = reviews.user_id
     inner join restaurants on restaurants.id = reviews.restaurant_id LIMIT ${quantity} OFFSET ${nowPageOffset}`);
 
-
-
-    res.json({reviewData: data.rows});//
+    res.json({ reviewData: data.rows }); //
   } catch (err) {
     // }
 
     res.json({ success: "false", error: err + "" });
   }
 });
-app.get("/restPic",async (req,res)=>{
-  try{
-  const reqData = req.query.rest
-  const data = await client.query('SELECT Restaurant_image FROM RESTAURANTS WHERE NAME = $1',[reqData])
-  res.json(data.rows[0])
-  } catch(err){
-    res.json({success:"false",error:err+""})
-  }}
-)
+app.get("/restPic", async (req, res) => {
+  try {
+    const reqData = req.query.rest;
+    const data = await client.query("SELECT Restaurant_image FROM RESTAURANTS WHERE NAME = $1", [
+      reqData,
+    ]);
+    res.json(data.rows[0]);
+  } catch (err) {
+    res.json({ success: "false", error: err + "" });
+  }
+});
 app.use(express.static(path.join(__dirname, "public")));
 
 // Start the server

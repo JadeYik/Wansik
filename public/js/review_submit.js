@@ -1,6 +1,6 @@
 window.onload = async () => {
   await fetch("/login-dev", { method: "POST" });
-  const restName = new URLSearchParams(location.search);
+  const restName = new URLSearchParams(location.search);//URL = http://localhost:8080/html/review_submit.html?rest=MM
   const restNameData = restName.get("rest");
   restPic(restNameData)
   contentForm(restNameData);
@@ -8,12 +8,9 @@ window.onload = async () => {
 async function restPic(i){
   const restN = document.querySelector("#restaurantName");
   restN.innerHTML = i;
-
   const res = await fetch(`/restPic?rest=${i}`);
   const resData = await res.json()
-
   const restPic = document.querySelector("#restPic")
-
   restPic.src = `/restPic/${resData.restaurant_image}`
 
 }
@@ -24,7 +21,6 @@ function contentForm(restName) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    formData.append("userName", form.userName.value);
     formData.append("title", form.title.value);
     formData.append("content", form.content.value);
     formData.append("image", form.image.files[0]);

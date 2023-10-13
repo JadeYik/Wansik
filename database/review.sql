@@ -48,3 +48,5 @@ select * from restaurants;
 select profile_image from users;
 select * from reviews;
 ALTER TABLE restaurants ADD COLUMN restaurant_image varchar;
+INSERT INTO restaurants (review_content,date_of_review,time_of_review,user_id,restaurant_id,image_upload,title,clean_rank,taste_rank,service_rank,environment_rank,cp_rank,total_rank) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)",rest 
+      );

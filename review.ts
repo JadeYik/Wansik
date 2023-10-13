@@ -60,7 +60,6 @@ app.post("/reviewSubmit", async (req, res) => {
         restaurantName,
       ]);
       const userIDJson = await client.query(`SELECT id FROM USERS WHERE EMAIL = $1`, [userName]);
-      console.log({userIDJson})
       const userIDValue = userIDJson.rows[0].id;
       const restaurantIdValue = restaurantIdJson.rows[0].id;
       const rest = [
@@ -92,36 +91,39 @@ app.post("/reviewSubmit", async (req, res) => {
 });
 //show all review
 
-app.post("/reviewDisplay", async (req, res) => {
+// app.post("/reviewDisplay", async (req, res) => {
+//   try {
+//     // const page =+(req.query.page as string)
+//     // if (page){
+//     const {page} = req.body;
+//     const reqData = { page };
+//     console.log(reqData);
+//     const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
+//     const rowsDataValue = rowsData.rows[0].count as string;
+//     res.json({ reviewNumbers: rowsDataValue });
+//   } catch (err) {
+//     // }
+
+//     res.json({ success: "false", error: err + "" });
+//   }
+// });
+app.get("/reviewTotal/q/:quantity/p/:page",async(req,res)=>{
+  const quantity =+(req.params.quantity as string)
+  const page =+(req.params.page as string)
+  const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
+  const rowsDataValue = Math.ceil((+(rowsData.rows[0].count))/quantity);
+  res.json({reviewNumbers: rowsDataValue})
+})
+app.get("/reviewDisplay/q/:quantity/p/:page", async (req, res) => {
   try {
-    // const page =+(req.query.page as string)
-    // if (page){
-    const {page} = req.body;
-    const reqData = { page };
-    console.log(reqData);
-    const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
-    const rowsDataValue = rowsData.rows[0].count as string;
-    res.json({ reviewNumbers: rowsDataValue });
-  } catch (err) {
-    // }
-
-    res.json({ success: "false", error: err + "" });
-  }
-});
-
-app.get("/reviewDisplay/:page", async (req, res) => {
-  try {
-    // const page =+(req.query.page as string)
-    // if (page){
-    const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
-    const rowsDataValue = rowsData.rows[0].count;
-
-    // let sqlOffset = ""
-
-    // if (page)
-
-
-
+    const page =+(req.params.page as string)
+    const quantity =+(req.params.quantity as string)
+    const pageShow = ((page-1) * quantity )
+    let nowPageOffset  = 0
+    if (pageShow<0){
+      nowPageOffset  = 0}
+    else {nowPageOffset = pageShow}
+    
     const data = await client.query(`SELECT 
     reviews.image_upload, 
     reviews.date_of_review, 
@@ -133,11 +135,11 @@ app.get("/reviewDisplay/:page", async (req, res) => {
     users.profile_image  as user_profile_image
     FROM reviews
     inner join users on users.id = reviews.user_id
-    inner join restaurants on restaurants.id = reviews.restaurant_id `);
+    inner join restaurants on restaurants.id = reviews.restaurant_id LIMIT ${quantity} OFFSET ${nowPageOffset}`);
 
-    // let rowsDataValue = data.rowCount
 
-    res.json({ reviewNumbers: rowsDataValue, reviewData: data.rows });
+
+    res.json({reviewData: data.rows});//
   } catch (err) {
     // }
 

@@ -141,3 +141,7 @@ color: white !important;
 .imgHeight{
     height:500;
 }
+
+.form-select{
+    width:100px;
+}

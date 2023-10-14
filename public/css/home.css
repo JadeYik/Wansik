@@ -1,0 +1,109 @@
+.main{
+    margin:10px;
+    color:azure;
+    background-color:#E7A243 ;
+    margin:0px;
+    
+}
+.theme{
+    background-image: url("../img/ResizeFamily2.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 700px;
+    display:flex;
+    align-items: flex-end
+    
+}
+#join{
+    background-color: rgba(105, 105, 96, 0.468);
+    font-size:40px;
+    padding:5px;
+    margin:10px;
+ 
+}
+.sallingPoint{
+    background-color: aliceblue;
+    color:#E7A243;
+    height: auto;
+}
+.howToUse{
+    background-color: rgb(165, 177, 187);
+    height: auto;
+    color:black;
+}
+
+
+body{
+    background-color: #e9e3df;
+}
+
+.header{
+    padding: 20px;
+    
+    
+}
+
+.logo-container{
+    background-color: black;
+    width: 300px;
+    height: 100px;
+}
+
+.user-infor{
+    display: flex;
+    text-align: center;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-top: 20px;
+}
+
+.user-icon{
+    background-color: black;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    align-items: flex-end;
+}
+
+.user-name{
+    padding:0px 30px 0px 10px;
+
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: black !important;
+    margin-bottom: 10px;
+}
+
+.nav-item{
+padding: 0px 50px;
+color: white !important;
+}
+
+.navbar-nav>li:hover {
+    background-color:#E7A243 ;
+}
+.title{
+    font-size: 30px;
+    font-weight: bold;
+    
+}
+.icon{
+    margin:30px;
+}
+.content{
+    font-size: 20px;
+}
+
+.fa-user{
+    color:rgb(136, 136, 136);
+}
+.card-body{
+    Height:200px;
+}
+.footer{
+    background-color: black;
+    color:rgb(136, 136, 136);
+}

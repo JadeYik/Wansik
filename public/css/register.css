@@ -1,0 +1,149 @@
+body{
+    background-color: #e9e3df;
+}
+
+.header{
+    padding: 20px;
+    
+    
+}
+
+.logo-container{
+    background-color: black;
+    width: 300px;
+    height: 100px;
+}
+
+.user-infor{
+    display: flex;
+    text-align: center;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-top: 20px;
+}
+
+.user-icon{
+    background-color: black;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    align-items: flex-end;
+}
+
+.user-name{
+    padding:0px 30px 0px 10px;
+
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: black !important;
+}
+
+.nav-item{
+padding: 0px 50px;
+color: white !important;
+}
+
+.navbar-nav>li:hover {
+    background-color:#E7A243 ;
+}
+
+.register-container{
+    width: auto;
+    height: 1000px;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    width: 500px;
+    height: 900px;
+    border: solid 2px black;
+    display: flex;
+    padding: 20px ; 
+    margin-top: 40px;
+}
+
+.register-google{
+    /* width: 450px; */
+    height: 180px;
+    background-color:antiquewhite;
+    border: solid 2px black;
+    /* padding: 10px ; */
+    /* display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column; */
+}
+
+.register-google-text{
+    background-color: #e9e3df;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 20px;
+
+}
+
+.btn-link-google{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    
+}
+
+.btn-link-google>.text{
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+.OR-line{
+    /* padding-top: 5px; */
+    text-align: center;
+    font-weight: bold;
+}
+
+.register-content{
+    height: 350px;
+    background-color:antiquewhite;
+    border: solid 2px black;
+}
+.label-register-data{
+    width: 200px;
+}
+.form-input-register{
+    width: auto;
+}
+
+.passward-rule{
+    margin-top: 5px;
+    height: 100px;
+    background-color:antiquewhite;
+    border: solid 2px black;
+}
+
+.btn-submit-register{
+    margin-top: 5px;
+    height: 50px;
+    background-color:antiquewhite;
+    border: solid 2px black;
+}
+
+.btn-return-login{
+    margin-top: 5px;
+    height: 50px;
+    background-color:antiquewhite;
+    border: solid 2px black;
+}

@@ -9,7 +9,7 @@ import expressSession from "express-session";
 
 const app = express();
 
-const usericonDir = path.join(__dirname,'public','usericon')
+const usericonDir = path.join(__dirname, 'public', 'usericon')
 fs.mkdirSync(usericonDir, { recursive: true })
 
 // Third party middleware
@@ -27,6 +27,8 @@ app.use(
 declare module "express-session" {
   interface SessionData {
     user?: { id: number }
+    email: { email: string }
+    password: { password: string }
   }
 }
 
@@ -38,6 +40,8 @@ app.use((req, _res, next) => {
 //fake login
 app.post("/login-dev", async (req, res) => {
   req.session.user = { id: 1 }
+  // const { rows } = await client.query('SELECT email, password FROM users WHERE email = $1;', ['example@example.com']);
+  // console.log(rows)
   res.json({})
 })
 
@@ -83,12 +87,26 @@ app.get("/profile", async (req, res) => {
 
   try {
     const profileReqData = await client.query(`SELECT * FROM users where id = $1;`, [req.session.user?.id])
+    const historyReqData = await client.query(`SELECT * FROM appointment where user_id = $1;`, [req.session.user?.id])
+    console.log(req.session.user?.id)
     console.log(profileReqData.rows[0])
-    res.json({ success: true, message: "success2", result: profileReqData.rows[0] })
+    console.log(historyReqData.rows[0])
+    console.log(historyReqData.rows)
+    res.json({ success: true, message: "success2", profileReq: profileReqData.rows[0], historyReq: historyReqData.rows })
   } catch (err) {
     console.log("Connot get the profile data")
     res.json({ success: false, message: "Connot get the profile data" })
   }
+
+  // try {
+  //   const historyReqData = await client.query(`SELECT * FROM appointment where id = $1;`, [req.session.user?.id])
+  //   console.log(historyReqData.rows[0])
+  //   res.json({ success: true, message: "success2", historyReq: historyReqData.rows[0] })
+  // } catch (err) {
+  //   console.log("Connot get the profile data")
+  //   res.json({ success: false, message: "Connot get the profile data" })
+  // }
+
 })
 
 app.put("/profile/:id", async (req, res) => {
@@ -119,7 +137,7 @@ app.put("/profile/:id", async (req, res) => {
 
     const { name, email, phone }: { name?: string, email?: string, phone?: string } = fields;
     console.log((files.profile_image as formidable.File)?.newFilename)
-    console.log(name, email, phone )
+    console.log(name, email, phone)
 
     try {
       const selectQuery = 'SELECT * FROM users WHERE id = $1';
@@ -136,11 +154,11 @@ app.put("/profile/:id", async (req, res) => {
       const updatedName: string = name || user.name;
       const updatedEmail: string = email || user.email;
       const updatedPhone: string = phone || user.phone;
-      const updatedProfileImage: string = (files.profile_image  as formidable.File)?.newFilename || user.profile_image ;
+      const updatedProfileImage: string = (files.profile_image as formidable.File)?.newFilename || user.profile_image;
       const updatedUpdateTime: Date = new Date(Date.now())
 
       const updateQuery: string = 'UPDATE users SET name = $1, email = $2, phone = $3, profile_image = $4, updated_at = $5 WHERE id = $6';
-      await client.query(updateQuery, [updatedName, updatedEmail, updatedPhone, updatedProfileImage,updatedUpdateTime, id]);
+      await client.query(updateQuery, [updatedName, updatedEmail, updatedPhone, updatedProfileImage, updatedUpdateTime, id]);
       console.log("Profile data updated successfully");
       res.json({ success: true, message: "Profile data updated successfully" });
     } catch (err) {
@@ -177,7 +195,7 @@ app.put("/profile/:id", async (req, res) => {
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("usericon",express.static(path.join(__dirname, 'usericon')));
+app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 
 
 // Define routes handler

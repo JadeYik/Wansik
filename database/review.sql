@@ -11,7 +11,7 @@ CREATE TABLE reviews (
   user_id int,
   restaurant_id int,
   FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (restaurant_id) REFERENCES restaur ants(id),
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants(id),
   title VARCHAR(255),
   clean_rank int,
   taste_rank int,

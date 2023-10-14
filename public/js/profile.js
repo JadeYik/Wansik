@@ -2,6 +2,7 @@ let userOfProfile;
 let profileIconSqu;
 let profileIconCir;
 let usernameHeader;
+let historyTable;
 
 window.onload = async () => {
   //fake login
@@ -12,6 +13,7 @@ window.onload = async () => {
   profileIconSqu = document.querySelector("#profile-icon");
   profileIconCir = document.querySelector(".user-icon");
   userNameHeader = document.querySelector(".user-name");
+  historyTable = document.querySelector(".table-container");
 
   getprofileForm();
   updateProfileData();
@@ -21,7 +23,8 @@ async function getprofileForm() {
   const resp = await fetch("/profile");
   const profile = await resp.json();
 
-  const getProfile = profile.result;
+  const getProfile = profile.profileReq;
+  const getHistory = profile.historyReq;
 
   let { name, email, phone, profile_image } = getProfile;
 
@@ -60,6 +63,44 @@ async function getprofileForm() {
 <img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
 </div>`;
   userNameHeader.innerHTML = `<div class="user-name">${getProfile.name}</div>`;
+
+  console.log(getHistory[1].restaurant_name)
+  console.log(getHistory[0].restaurant_name)
+  
+  for(const history of getHistory){
+    historyTable.innerHTML += `
+    <tbody>
+    <tr>
+      <th scope="row">${history.guest_name}</th>
+      <td>${history.appointment_date}</td>
+      <td>${history.appointment_time}</td>
+      <td>${history.restaurant_name}</td>
+      <td>${history.accept}</td>
+      <td>${history.cancel}</td>
+    </tr>
+  
+  </tbody> 
+    `
+  }
+
+
+
+//   historyTable.innerHTML = `
+//   <tbody>
+//   <tr>
+//     <th scope="row">${history.guest_name}</th>
+//     <td>${history.appointment_dat}</td>
+//     <td>${history.appointment_time}</td>
+//     <td>${history.restaurant_name}</td>
+//     <td>${history.accept}</td>
+//     <td>${history.cancel}</td>
+//   </tr>
+
+// </tbody>
+  
+//   `
+
+
 }
 
 function updateProfileData() {

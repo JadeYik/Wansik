@@ -2,7 +2,7 @@ body {
     background-color: #e9e3df;
 }
 
-.header {
+/* .header {
     padding: 20px;
 
 
@@ -23,7 +23,6 @@ body {
 }
 
 .user-icon {
-    /* background-color: black; */
     border-radius: 50%;
     height: 80px;
     width: 80px;
@@ -57,7 +56,7 @@ body {
 
 .navbar-nav>li:hover {
     background-color: #E7A243;
-}
+} */
 
 
 .profile-class {

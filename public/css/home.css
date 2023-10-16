@@ -37,7 +37,7 @@ body{
     background-color: #e9e3df;
 }
 
-.header{
+/* .header{
     padding: 20px;
     
     
@@ -84,7 +84,7 @@ color: white !important;
 
 .navbar-nav>li:hover {
     background-color:#E7A243 ;
-}
+} */
 .title{
     font-size: 30px;
     font-weight: bold;

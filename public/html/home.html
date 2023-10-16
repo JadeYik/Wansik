@@ -23,24 +23,31 @@
       <div class="logo-container"><img src="\img\00012.png" class="logo"></div>
   </div>
 
-    <div class="col-sm-6 col-xs-12">
-
-        <!-- <div class="user-infor">
+    <div class="col-sm-6 col-xs-12 login-gird">
+      <div class="hidden">
+        <div class="user-infor ">
             <div class="user-icon"><i class="fa-solid fa-user fa-3x"></i>
               </div>
             <div class="user-name">username</i></div>
         </div>
-    </div> -->
+      </div>
+    <div class="login-button">
  <!-- Button trigger modal -->
  <button
  type="button"
- class="btn profile-edit"
+ class="btn login-btn"
  data-bs-toggle="modal"
  data-bs-target="#staticBackdrop"
 >
  LOGIN
 </button>
-
+<button
+onclick="logout()"
+type="button"
+class="btn logout-btn"
+>
+Logout
+</button>
 <!-- Modal -->
 <div
  class="modal fade"
@@ -123,6 +130,10 @@
  </div>
 </div>
 </div>
+
+</div>
+
+
 </div>
 </div>
 </div>
@@ -235,8 +246,9 @@
     ></script>
 
 <script src="../js/login.js"></script>
-<script src="../js/index.js"></script>
+<!-- <script src="../js/index.js"></script> -->
 <script src="../js/header.js"></script>
+<script src="../js/home.js"></script>
 
 
 

@@ -85,6 +85,14 @@ color: white !important;
 .navbar-nav>li:hover {
     background-color:#E7A243 ;
 } */
+
+
+.hidden{
+    display: hidden;
+}
+
+
+
 .title{
     font-size: 30px;
     font-weight: bold;

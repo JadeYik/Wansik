@@ -24,10 +24,14 @@ app.use(
 
 declare module "express-session" {
   interface SessionData {
-    email: { email: string }
-    password: { password: string }
+    user?: { id: number };
   }
 }
+
+app.post("/login-dev", async (req, res) => {
+  req.session.user = { id: 1 };
+  res.json({});
+});
 
 app.get("/uerInfo", async (req, res) => {
   try {
@@ -42,6 +46,7 @@ app.get("/uerInfo", async (req, res) => {
 
 //submit review - Hello Ben!!!!!! Nice website!!!!!! Eat banana la!
 app.post("/reviewSubmit", async (req, res) => {
+  
   try {
     // "dial-in" to the postgres server
     let counter = 0;
@@ -172,3 +177,5 @@ const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`listening at http://localhost:${PORT}`);
 });
+
+

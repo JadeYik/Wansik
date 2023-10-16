@@ -1,14 +1,7 @@
-let userNameHeader;
-let profileIconCir;
-
-window.onload = async () => {
-
-    profileIconCir = document.querySelector(".user-icon");
-    userNameHeader = document.querySelector(".user-name");
- 
-  
-    getUserData();
-  };
+let userNameHeader = document.querySelector(".user-name");
+let profileIconCir = document.querySelector(".user-icon");
+// profileIconCir 
+// userNameHeader 
 
 
   async function getUserData() {
@@ -17,9 +10,9 @@ window.onload = async () => {
   
     const getProfile = profile.profileReq;
   
-    let { name, email, phone, profile_image } = getProfile;
+    let { name, profile_image } = getProfile;
   
-    // console.log({ name, email, phone, profile_image });
+    console.log({ name, profile_image });
   
     profileIconCir.innerHTML = `   <div class="user-icon">
               

@@ -1,17 +1,19 @@
 let userOfProfile;
 let profileIconSqu;
-let profileIconCir;
-let usernameHeader;
+// let profilepageIconCir;
+// let usernameHeaderProfile;
 let historyTable;
 
 window.onload = async () => {
 
   userOfProfile = document.querySelector("#profile-text-container");
   profileIconSqu = document.querySelector("#profile-icon");
-  profileIconCir = document.querySelector(".user-icon");
-  userNameHeader = document.querySelector(".user-name");
+  // profilepageIconCir = document.querySelector(".user-icon");
+  // usernameHeaderProfile = document.querySelector(".user-name");
   historyTable = document.querySelector(".table-container");
 
+  
+  getUserData()
   getprofileForm();
   updateProfileData();
 };
@@ -19,7 +21,7 @@ window.onload = async () => {
 async function getprofileForm() {
   const resp = await fetch("/profile");
   const profile = await resp.json();
-
+console.log(profile)
   const getProfile = profile.profileReq;
   const getHistory = profile.historyReq;
 
@@ -52,14 +54,15 @@ async function getprofileForm() {
     </blockquote>
   </div>
 </div>`;
+
   profileIconSqu.innerHTML = `  <div id="profile-icon">
   <img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
 </div>`;
-  profileIconCir.innerHTML = `   <div class="user-icon">
+// profilepageIconCir.innerHTML = `   <div class="user-icon">
             
-<img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
-</div>`;
-  userNameHeader.innerHTML = `<div class="user-name">${getProfile.name}</div>`;
+// <img src="/usericon/${getProfile.profile_image}" alt="user-icon" />
+// </div>`;
+// usernameHeaderProfile.innerHTML = `<div class="user-name">${getProfile.name}</div>`;
 
   console.log(getHistory[1].restaurant_name)
   console.log(getHistory[0].restaurant_name)

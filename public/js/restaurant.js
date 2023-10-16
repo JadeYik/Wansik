@@ -3,6 +3,7 @@ let restaurantList;
 window.onload = async () => {
   restaurantList = document.querySelector("#restaurant-list");
 
+  getUserData()
   getrestaurantData();
 };
 

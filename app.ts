@@ -192,7 +192,6 @@ app.put("/profile/:id", async (req, res) => {
 
 
 
-
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("usericon", express.static(path.join(__dirname, 'usericon')));

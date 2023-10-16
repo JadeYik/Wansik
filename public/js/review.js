@@ -1,16 +1,10 @@
 window.onload = () => {
-  async function fakeLogin() {
-    await fetch("/login-dev", {
-      method: "POST",
-      header: { "Content-Type": "application/json" },
-      body: JSON.stringify(),
-    });
-  }
-  fakeLogin()
+
   const page = new URLSearchParams(location.search).get("p");
   const quantityPage = new URLSearchParams(location.search).get("q");
-  const restData = new URLSearchParams(location.search).get("rest");
-  const pageDetail = { page: page, quantityPage: quantityPage };
+  const restDataInt = new URLSearchParams(location.search).get("rest");
+  const pageDetail = { page: page, quantityPage: quantityPage, rest:restData };
+  userInfo()
   contentInfo(pageDetail);
 };
 /*TODO
@@ -25,12 +19,12 @@ async function userInfo() {
   const userInfoData = await fetch(`/uerInfo`);
   const userInfo = await userInfoData.json();
   const userInfoShow = document.querySelector(".user-infor");
-  // const {userName:name,userProIcon:pic} = userInfo
   userInfoShow.innerHTML = `<div><img src="/usericon/${userInfo.profile_image}" class="card-img-bottom circleImg fa-user fa-3x"></div><div class="user-name">${userInfo.name}</i></div>`;
 }
 
 async function contentInfo(pn) {
-  const reviewsPage = await fetch(`/reviewTotal/q/${pn.quantityPage}/p/${pn.page}`);
+  try {
+  const reviewsPage = await fetch(`/reviewTotal/rest/${pn.rest}/q/${pn.quantityPage}/p/${pn.page}`);
   const resPageReviews = await reviewsPage.json();
 
   const pageNumber = +resPageReviews.reviewNumbers + 1;
@@ -103,10 +97,11 @@ async function contentInfo(pn) {
 
   //   });
   // }
-  const dataResReviews = await fetch(`/reviewDisplay/q/${pn.quantityPage}/p/${pn.page}`);
+  const dataResReviews = await fetch(`/reviewDisplay/rest/${pn.rest}/q/${pn.quantityPage}/p/${pn.page}`);
   const resReviews = await dataResReviews.json();
   const reviews = resReviews.reviewData;
- 
+
+ console.log(resReviews)
   let x = "";
  
   for (const review of reviews) {
@@ -115,4 +110,8 @@ async function contentInfo(pn) {
     }
 
   }
+  catch (error) {
+    console.error(error);
+  }
+}
 

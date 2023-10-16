@@ -1,0 +1,13 @@
+#restaurant-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.card{
+ display: flex;
+ /* max-width: 800px; */
+ justify-content: center;
+
+
+}
+

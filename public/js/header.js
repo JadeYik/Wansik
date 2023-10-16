@@ -2,11 +2,7 @@ let userNameHeader;
 let profileIconCir;
 
 window.onload = async () => {
-    //fake login
-    await fetch("/login-dev", {
-      method: "POST",
-    });
- 
+
     profileIconCir = document.querySelector(".user-icon");
     userNameHeader = document.querySelector(".user-name");
  
@@ -20,7 +16,6 @@ window.onload = async () => {
     const profile = await resp.json();
   
     const getProfile = profile.profileReq;
-    const getHistory = profile.historyReq;
   
     let { name, email, phone, profile_image } = getProfile;
   

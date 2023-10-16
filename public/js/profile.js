@@ -5,10 +5,7 @@ let usernameHeader;
 let historyTable;
 
 window.onload = async () => {
-  //fake login
-  await fetch("/login-dev", {
-    method: "POST",
-  });
+
   userOfProfile = document.querySelector("#profile-text-container");
   profileIconSqu = document.querySelector("#profile-icon");
   profileIconCir = document.querySelector(".user-icon");

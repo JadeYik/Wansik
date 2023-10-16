@@ -14,37 +14,46 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  expressSession({
-    secret: "Tecky Academy teaches typescript",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   expressSession({
+//     secret: "Tecky Academy teaches typescript",
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// );
 
-declare module "express-session" {
-  interface SessionData {
-    user?: { id: number };
-  }
-}
+// declare module "express-session" {
+//   interface SessionData {
+//     user?: { id: number };
+//   }
+// }
 
-app.post("/login-dev", async (req, res) => {
-  req.session.user = { id: 1 };
-  res.json({});
-});
+// app.post("/login-dev", async (req, res) => {
+//   req.session.user = { id: 1 };
+//   res.json({});
+// });
 
-app.get("/uerInfo", async (req, res) => {
-  try {
-    const userEmail = req.session.email;
-    const userName = await client.query(`SELECT name,profile_image FROM USERS WHERE EMAIL = $1`, [userEmail]);
-    //const userProIcon = await client.query(`SELECT  FROM USERS WHERE EMAIL = $1`, [userEmail]);
-    res.json(userName.rows[0]);
-  } catch (err) {
-    res.json({ success: "false", error: err + "" });
-  }
-});
+// app.get("/uerInfo", async (req, res) => {
+//   try {
+//     const userEmail = "ben@g.com"//req.session.email;
+//     const userName = await client.query(`SELECT name,profile_image FROM USERS WHERE EMAIL = $1`, [userEmail]);
+//     //const userProIcon = await client.query(`SELECT  FROM USERS WHERE EMAIL = $1`, [userEmail]);
+//     res.json(userName.rows[0]);
+//   } catch (err) {
+//     res.json({ success: "false", error: err + "" });
+//   }
+// });
 
 //submit review - Hello Ben!!!!!! Nice website!!!!!! Eat banana la!
+
+app.get("/testing",(req,res)=>{
+  try{
+  res.json( {success: "true"})
+  } catch(err){
+  res.json({ success: "false", error: err + "" });
+  }}
+  )
+
 app.post("/reviewSubmit", async (req, res) => {
   
   try {

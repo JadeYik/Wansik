@@ -1,6 +1,6 @@
-const y = {};
-y.name = "t";
-console.log(y);
+// const y = {};
+// y.name = "t";
+// console.log(y);
 
 let userOfProfile;
 let profileIconSqu;

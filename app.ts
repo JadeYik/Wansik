@@ -199,8 +199,10 @@ app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 
 
 // Define routes handler
-app.get('/profile', (req, res) => {
+app.get('/profile', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public/html', 'profile.html'));
 });
-
+// app.get('/home', (_req, res) => {
+//   res.sendFile(path.join(__dirname, 'public/html', 'home.html'));
+// });
 export default app;

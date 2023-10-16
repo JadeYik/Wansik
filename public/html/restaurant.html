@@ -18,9 +18,6 @@
       referrerpolicy="no-referrer"
     />
 
-
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
-<!-- <link rel="stylesheet" href="../css/review.css"/> -->
 <link rel="stylesheet" href="../css/header.css"/>
 <link rel="stylesheet" href="../css/restaurant.css"/>
 </head>
@@ -28,17 +25,20 @@
     <div class="container">
         <div class="header">
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
-                    <div class="logo-container"><img src="\img\00012.png" class="logo"></div>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <div class="user-infor">
-                        <div class="user-icon"><i class="fa-solid fa-user fa-3x"></i></div>
-                        <div class="user-name">username</i></div>
-                    </div>
-                </div>
+              <div class="col-sm-6 col-xs-12">
+                <div class="logo-container"><img src="\img\00012.png" class="logo"></div>
             </div>
-        </div>
+              <div class="col-sm-6 col-xs-12">
+                <div class="user-infor">
+                  <div class="user-icon">
+                    <img scr="" alt="user-icon" />
+                  </div>
+                  <div class="user-name">username</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <button class="btn navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                 <span class="navbar-toggler-icon"></span>
@@ -58,65 +58,42 @@
                 </li>
             </ul>
         </nav>
+
        <div id="restaurant-list">
         <div class="card mb-3 restaurant-card" >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start restaurant-image" alt="restaurant image">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text"><i class="fa-solid fa-map-location-dot"></i></p>
-                  <p class="card-text"><i class="fa-solid fa-location-dot"></i> </p>
-                  <p class="card-text"><i class="fa-solid fa-phone"></i> </p>
-                  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
+        <div class="row g-0">
+          <div class="col-md-4 rest-image">
+            <img src="${newRestList.restaurant_image}" class="img-fluid rounded-start " alt="restaurant image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"> ${newRestList.restaurant_name}</h5>
+              <p class="card-text"><i class="fa-solid fa-location-dot"></i> ${newRestList.district}</p>
+              <p class="card-text"><i class="fa-solid fa-map-location-dot"></i> ${newRestList.restaurant_address}</p>
+              <p class="card-text"><i class="fa-solid fa-phone"></i> ${newRestList.restaurant_phone}</p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
             </div>
           </div>
-
-          <div class="card mb-3 restaurant-card" >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start restaurant-image" alt="restaurant image">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text"><i class="fa-solid fa-map-location-dot"></i></p>
-                  <p class="card-text"><i class="fa-solid fa-location-dot"></i> </p>
-                  <p class="card-text"><i class="fa-solid fa-phone"></i> </p>
-                  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        </div>
+      </div>
+ 
        </div>
         
 
 
-
-
-
-
-
-
-
-
-
-
-
         
-        <div class="footer container">
+        <!-- <div class="footer container">
             <div>Contact us</div>
             <div>Address: Unit C-E, 11/F, 59-67 Bonham Strand West Golden Sun Centre, Sheung Wan</div>
             <div>Phone: +852 97256400</div>
-        </div>
+        </div> -->
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+
 <script src="../js/header.js"></script>
+<script src="../js/restaurant.js"></script>
+<script src="../js/login.js"></script>
+<script src="../js/index.js"></script>
 
 </body>
 </html>

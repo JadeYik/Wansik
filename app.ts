@@ -122,9 +122,9 @@ app.get("/profile", async (req, res) => {
     const historyReqData = await client.query(`SELECT * FROM appointment where user_id = $1;`, [req.session.user?.id])
     console.log(req.session.user?.id)
     console.log(profileReqData.rows[0])
-    console.log(historyReqData.rows[0])
+  
     console.log(historyReqData.rows)
-    res.json({ success: true, message: "success2", profileReq: profileReqData.rows[0], historyReq: historyReqData.rows })
+    res.json({ success: true, message: "success2",profileReq: profileReqData.rows[0], historyReq: historyReqData.rows })
   } catch (err) {
     console.log("Connot get the profile data")
     res.json({ success: false, message: "Connot get the profile data" })
@@ -224,6 +224,26 @@ app.put("/profile/:id", async (req, res) => {
 
 
 // Serve static files from the 'public' directory
+
+app.get("/restaurant", async (req, res) => {
+
+  try {
+    const restaurantReqData = await client.query(`SELECT * FROM restaurants`)
+    console.log(req.session.user?.id)
+    console.log(restaurantReqData.rows)
+    res.json({ success: true, message: "success get restaurant data ", restaurantReq: restaurantReqData.rows})
+  } catch (err) {
+    console.log("Connot get the restaurants data")
+    res.json({ success: false, message: "Connot get the restaurants data" })
+  }
+})
+
+
+
+
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 

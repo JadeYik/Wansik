@@ -37,7 +37,7 @@ async function login() {
       console.log(json)
       if (json.success) {
         // loadMemos() or updateMemo()
-        location.replace("/html/home.html");
+        location.replace("/html/restaurant.html");
       } else {
         // Handle Error?
         alert("Error when Login!");

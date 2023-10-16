@@ -11,3 +11,23 @@
 
 }
 
+.restaurant-card{
+    max-height: 300px;
+}
+
+.rest-image{
+    max-width: 500px;
+    max-height: 250px;
+}
+
+.rest-image>img{
+    height: 200px;
+    width: 500px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-body{
+    max-height: 200px;
+}
+

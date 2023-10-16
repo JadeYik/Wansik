@@ -1,7 +1,7 @@
-window.onload = () => {
-    getUserInfo() 
-    login()
-}
+// window.onload = () => {
+//     getUserInfo() 
+//     login()
+// }
 async function getUserInfo() {
     // const res = await fetch("/userInfo")
     // if (res.ok) {
@@ -14,7 +14,7 @@ async function getUserInfo() {
     // }
   }
 async function login() {
-    document.querySelector("#login-panel").addEventListener("submit", async (e) => {
+    document.querySelector("#login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const form = e.target;
       const email = form.email.value;
@@ -35,9 +35,9 @@ async function login() {
   
       let json = await res.json();
       console.log(json)
-      if (res.success) {
+      if (json.success) {
         // loadMemos() or updateMemo()
-        location.reload();
+        location.replace("/html/rest.html");
       } else {
         // Handle Error?
         alert("Error when Login!");

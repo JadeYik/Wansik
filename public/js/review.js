@@ -3,7 +3,7 @@ window.onload = () => {
   const page = new URLSearchParams(location.search).get("p");
   const quantityPage = new URLSearchParams(location.search).get("q");
   const restDataInt = new URLSearchParams(location.search).get("rest");
-  const pageDetail = { page: page, quantityPage: quantityPage, rest:restData };
+  const pageDetail = { page: page, quantityPage: quantityPage, rest: restDataInt };
   userInfo()
   contentInfo(pageDetail);
 };
@@ -31,56 +31,9 @@ async function contentInfo(pn) {
 
   const reviewContainer = document.querySelector(".review-container");
   const pageContainer = document.querySelector(".page-container");
-  function paint(i) {
-    let x = "";
-    if (i.image_upload === null) {
-      x = `
-      <div class="reviewCard card">
-        <div class="row">
-          <div class="col-md-2 col-sm-12">
-          <div class="text-center">
-            <div class="midUsername">${i.user_name}</div>
-            <div><img src="/usericon/${
-              i.user_profile_image
-            }" class="card-img-bottom circleImg"></div>
-          </div>
-        </div>
-        <div class="col-md-10 col-sm-12">
-          <h5 class="title">${i.title}</h5>
-          <div>${i.restaurants_name}</div>
-          <p class="content">${i.review_content}</p>
-          <small class="text-body-secondary">Posted at ${dateFns.format(
-            i.date_of_review,
-            "MM/DD/YYYY"
-          )}  ${i.time_of_review.substring(0, 5)}</small></p>
-        </div>
-      </div>`;
-    } else {
-      x = `
-      <div class="reviewCard card">
-        <div class="row">
-          <div class="col-md-2 col-sm-12">
-          <div class="text-center">
-            <div class="midUsername">${i.user_name}</div>
-            <div><img src="/usericon/${
-              i.user_profile_image
-            }" class="card-img-bottom circleImg"></div>
-          </div>
-        </div>
-        <div class="col-md-10 col-sm-12">
-          <h5 class="title">${i.title}</h5>
-          <div>${i.restaurants_name}</div>
-          <p class="content">${i.review_content}</p>
-          <img src="/uploads/${i.image_upload}" class="card-img-bottom imgHeight">
-          <small class="text-body-secondary">Posted at ${dateFns.format(
-            i.date_of_review,
-            "MM/DD/YYYY"
-          )}  ${i.time_of_review.substring(0, 5)}</small></p>
-        </div>
-      </div>`;
-    }
-    return x;
-  }
+
+
+
   //feature will coming soon!!!!!!!!!!!!!!!!!!!
   // let selectedValue = "";
   // const pageNum = document.querySelector("#nuSelect").addEventListener('change',function(event){
@@ -102,14 +55,60 @@ async function contentInfo(pn) {
   const reviews = resReviews.reviewData;
 
  console.log(resReviews)
-  let x = "";
+
  
   for (const review of reviews) {
-      x = paint(review)
+    let x = "";
+    if (review.image_upload === null) {
+      x = `
+      <div class="reviewCard card">
+        <div class="row">
+          <div class="col-md-2 col-sm-12">
+          <div class="text-center">
+            <div class="midUsername">${review.user_name}</div>
+            <div><img src="/usericon/${
+              review.user_profile_image
+            }" class="card-img-bottom circleImg"></div>
+          </div>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <h5 class="title">${review .title}</h5>
+          <div>${review .restaurants_name}</div>
+          <p class="content">${review .review_content}</p>
+          <small class="text-body-secondary">Posted at ${dateFns.format(
+            review .date_of_review,
+            "MM/DD/YYYY"
+          )}  ${review .time_of_review.substring(0, 5)}</small></p>
+        </div>
+      </div>`;
+    } else {
+      x = `
+      <div class="reviewCard card">
+        <div class="row">
+          <div class="col-md-2 col-sm-12">
+          <div class="text-center">
+            <div class="midUsername">${review .user_name}</div>
+            <div><img src="/usericon/${
+              review.user_profile_image
+            }" class="card-img-bottom circleImg"></div>
+          </div>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <h5 class="title">${review.title}</h5>
+          <div>${review.restaurants_name}</div>
+          <p class="content">${review.review_content}</p>
+          <img src="/uploads/${review.image_upload}" class="card-img-bottom imgHeight">
+          <small class="text-body-secondary">Posted at ${dateFns.format(
+            review.date_of_review,
+            "MM/DD/YYYY"
+          )}  ${review.time_of_review.substring(0, 5)}</small></p>
+        </div>
+      </div>`;
       reviewContainer.innerHTML += x;
     }
 
   }
+}
   catch (error) {
     console.error(error);
   }

@@ -5,9 +5,10 @@ import formidable from 'formidable'
 import fs from 'fs'
 import { client } from "./db";
 import expressSession from "express-session";
-
-
+// import {authRoutes} from "./authRoutes"
+import { User } from "./models";
 const app = express();
+
 
 const usericonDir = path.join(__dirname, 'public', 'usericon')
 fs.mkdirSync(usericonDir, { recursive: true })
@@ -26,9 +27,8 @@ app.use(
 // tell typescript what type of info you should input
 declare module "express-session" {
   interface SessionData {
-    user?: { id: number }
-    email: { email: string }
-    password: { password: string }
+    user?: { id: number, email: string,username:string }
+
   }
 }
 
@@ -36,16 +36,48 @@ app.use((req, _res, next) => {
   console.log(`Request Path: ${req.path}  Method: ${req.method}`)
   next();
 });
-
+// authRoutes.use(app)
 //fake login
-app.post("/login-dev", async (req, res) => {
-  req.session.user = { id: 1 }
-  // const { rows } = await client.query('SELECT email, password FROM users WHERE email = $1;', ['example@example.com']);
-  // console.log(rows)
-  res.json({})
-})
+// app.post("/login-dev", async (req, res) => {
+//   req.session.user = { id: 1 }
+//   // const { rows } = await client.query('SELECT email, password FROM users WHERE email = $1;', ['example@example.com']);
+//   // console.log(rows)
+//   res.json({})
+// })
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////Login system//////////////////////////////////////////////////
+
+app.get("/userInfo", async (req, res) => {
+  if (!req.session.user ) {
+    res.status(401).json({ success: false });
+    return
+  }
+  res.json({ success: true, username: req.session.user?.username});
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body  ;
+
+  if (!email|| !password) {
+  
+    res.status(400).json({ success: false, message: "missing username or password" });
+    return;
+  }
+
+  const result = await client.query("Select * from users where email = $1 and password = $2", [email, password])
+  if (result.rowCount == 0) {
+    res.status(400).json({ success: false, message: "invalid email or password" });
+    return
+  }
+  
+  req.session.user = { id: result.rows[0].id, email: result.rows[0].email,username:result.rows[0].email };
+
+  res.json({ success: true, message: "success"});
+});
 
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////Login system//////////////////////////////////////////////////
 app.post("/profile", async (req, res) => {
 
   const form = formidable({
@@ -184,8 +216,6 @@ app.put("/profile/:id", async (req, res) => {
 //   }
 
 // })
-
-
 
 
 

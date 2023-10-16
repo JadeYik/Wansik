@@ -5,13 +5,15 @@ import express from "express";
 import formidable from "formidable";
 import { client } from "./db";
 import path from "path";
-dotenv.config();
 import expressSession from "express-session";
+dotenv.config();
+
 const uploadDir = "public/uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   expressSession({
     secret: "Tecky Academy teaches typescript",
@@ -19,20 +21,17 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 declare module "express-session" {
   interface SessionData {
-    user?: { email: string };
+    email: { email: string }
+    password: { password: string }
   }
 }
 
-app.post("/login-dev", async (req, res) => {
-  req.session.user = { email: "ben@g.com" };
-  res.json({});
-});
-
 app.get("/uerInfo", async (req, res) => {
   try {
-    const userEmail = "ben@g.com"//req.session.user;
+    const userEmail = req.session.email;
     const userName = await client.query(`SELECT name,profile_image FROM USERS WHERE EMAIL = $1`, [userEmail]);
     //const userProIcon = await client.query(`SELECT  FROM USERS WHERE EMAIL = $1`, [userEmail]);
     res.json(userName.rows[0]);

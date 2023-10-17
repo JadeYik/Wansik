@@ -60,7 +60,7 @@ app.post("/reviewSubmit", async (req, res) => {
     // "dial-in" to the postgres server
     let counter = 0;
     const userName = "ben@g.com"//req.session.user;
-    const restaurantName = req.query.rest;
+    const restaurantID = req.query.rest;
     const form = formidable({
       uploadDir,
       keepExtensions: true,
@@ -79,7 +79,7 @@ app.post("/reviewSubmit", async (req, res) => {
 
     form.parse(req, async (err, fields, files) => {
       const restaurantIdJson = await client.query(`SELECT id FROM RESTAURANTS WHERE NAME = $1`, [
-        restaurantName,
+        restaurantID,
       ]);
       const userIDJson = await client.query(`SELECT id FROM USERS WHERE EMAIL = $1`, [userName]);
       const userIDValue = userIDJson.rows[0].id;
@@ -129,14 +129,8 @@ app.post("/reviewSubmit", async (req, res) => {
 //     res.json({ success: "false", error: err + "" });
 //   }
 // });
-app.get("/reviewTotal/q/:quantity/p/:page", async (req, res) => {
-  const quantity = +(req.params.quantity as string);
-  const page = +(req.params.page as string);
-  const rowsData = await client.query(`SELECT count(*) FROM reviews;`);
-  const rowsDataValue = Math.ceil(+rowsData.rows[0].count / quantity);
-  res.json({ reviewNumbers: rowsDataValue });
-});
-app.get("/reviewDisplay/q/:quantity/p/:page", async (req, res) => {
+
+app.get("/reviewDisplay", async (req, res) => {
   try {
     const page = +(req.params.page as string);
     const quantity = +(req.params.quantity as string);

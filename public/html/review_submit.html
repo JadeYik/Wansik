@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wansik</title>
+
   <link
   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
   rel="stylesheet"
@@ -11,57 +12,58 @@
   crossorigin="anonymous"
 />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="sweetalert2.min.css">
 
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 <link rel="stylesheet" href="../css/review.css"/>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-<div class="row">
-    <div class="col-sm-6 col-xs-12">
-        <div class="logo-container">
-           
-        </div>
-    </div>
-    <div class="col-sm-6 col-xs-12">
-        <div class="user-infor">
-            <div class="user-icon"><i class="fa-solid fa-user fa-3x"></i>
-              </div>
-            <div class="user-name">username</i></div>
-        </div>
-    </div>
-</div>
-</div>
+<link rel="stylesheet" href="../css/header.css"/>
 
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <button class="btn navbar-toggler " type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <span class="navbar-toggler-icon"></span>
-        </button> 
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="Home">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="Profile">Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" id="Profile">Finding Restaurant</a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link" href="#" id="Review">Review</a>
-                            </li>
-                  
-                        </ul>
-                    </nav>
+</head>
+<div class="container">
+  <div class="header">
+      <div class="header">
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <div class="logo-container"><img src="\img\00012.png" class="logo"></div>
+          </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="user-infor">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+      <button class="btn navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          <span class="navbar-toggler-icon"></span>
+      </button> 
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a class="nav-link" href="/html/home.html" id="Home">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/html/profile.html" id="Profile">Profile</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/html/restaurant.html" >Finding Restaurant</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/html/review.html" id="Review">Review</a>
+          </li>
+      </ul>
+  </nav>
                     <div class="row">
                       <div class="col-sm-2 col-xs-12">
                         <div class="text-center m-2">
-                          <div id="restaurantName">restaurantName</div>
-               
+                          <div id="restaurantName">
+                          <div>restaurantName</div>
+                          </div>
+                          
+                          <div id="restIcon">
                           <img src="" id="restPic" class="circleImg">
-
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -80,22 +82,113 @@
                         </div> 
                         <input type="submit" value="Submit"/>
                       </form>
-               
-                <span id="rateMe1">
-                  <i class="py-2 px-1">Ranking</i>
-                  <i class="py-2 px-1 checked fas fa-star VeryBad"></i>
-                  <i class="py-2 px-1 checked fas fa-star " data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Poor"></i>
-                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="OK"></i>
-                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Good"></i>
-                  <i class="py-2 px-1 rate-popover fas fa-star " data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="" data-original-title="Excellent"></i>
-                </span>
-                
+
+          
+                      <button
+                      onclick="logout()"
+                      type="button"
+                      class="btn logout-btn"
+                      >
+                      Logout
+                      </button>
+                      <!-- Modal -->
+                      <div
+                       class="modal fade"
+                       id="staticBackdrop"
+                       data-bs-backdrop="static"
+                       data-bs-keyboard="false"
+                       tabindex="-1"
+                       aria-labelledby="staticBackdropLabel"
+                       aria-hidden="true"
+                      >
+                       <div class="modal-dialog">
+                         <div class="modal-content">
+                           <div class="modal-header">
+                             <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                               Modal title
+                             </h1>
+                             <button
+                               type="button"
+                               class="btn-close"
+                               data-bs-dismiss="modal"
+                               aria-label="Close"
+                             ></button>
+                           </div>
+
+
+
+
+
+                           
+                           <form id="login-form">
+                             <div class="modal-body">
+                               <!-- modal-body-->
+                      
+                               <div class="input-group mb-3">
+                                 <span
+                                   class="input-group-text"
+                                   id="inputGroup-sizing-default"
+                                   >Email: </span
+                                 >
+                                 <input
+                                   type="text"
+                                   class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default"
+                                   id="email"
+                                   name="email"
+                                   placeholder="your@email.com"
+                                 />
+                               </div>
+                      
+                               <div class="input-group mb-3">
+                                 <span
+                                   class="input-group-text"
+                                   id="inputGroup-sizing-default"
+                                   >Password</span
+                                 >
+                                 <input
+                                   type="text"
+                                   class="form-control"
+                                   aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-default"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Password"
+                                 />
+                               </div>
+                      
+                             <div class="modal-footer">
+                               <button
+                                 type="button"
+                                 class="btn close-btn"
+                                 data-bs-dismiss="modal"
+                               >
+                                 Close
+                               </button>
+                               <button
+                                 type="submit"
+                                 class="btn submit-btn"
+                                 id="modal-submitBtn"
+                               >
+                                 Submit
+                               </button>
+                             </div>
+                           </form>
+         
+            
 <div class="footer container">
   <div>Contact us</div>
   <div>Address: Unit C-E, 11/F, 59-67 Bonham Strand West Golden Sun Centre, Sheung Wan</div>
   <div>Phone: +852 97256400</div>
 </div>
 </div>
+<script src="../js/login.js"></script>
+<script src="../js/header.js"></script>
 <script src="../js/review_submit.js"></script>
+
+<script src="sweetalert2.min.js"></script>
+
+
 </body>
 </html>

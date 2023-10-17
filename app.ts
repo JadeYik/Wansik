@@ -270,6 +270,9 @@ app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 
 
 /////////////////////////////////////Review
+
+
+
 const uploadDir = "public/uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 
@@ -352,6 +355,7 @@ app.get("/review", async (req, res) => {
   try {
 
     const restaurantID = req.query.rest;
+
     console.log(restaurantID)
     if (restaurantID){
       console.log("true")
@@ -370,7 +374,6 @@ app.get("/review", async (req, res) => {
     res.json({ reviewData: data.rows })
   } else{
 
-      console.log("true")
     const data = await client.query(`SELECT 
     review.image_upload, 
     review.date_of_review, 
@@ -390,10 +393,19 @@ app.get("/review", async (req, res) => {
     res.json({ success: "false", error: err + "" });
   }
 });
-app.get("/restPic", async (req, res) => {
+app.get("/oneRestaurant", async (req, res) => {
   try {
-    const reqData = req.query.rest;
-    const data = await client.query("SELECT Restaurant_image FROM RESTAURANTS WHERE NAME = $1", [
+    const reqData = req.query.rest;;
+    // if(reqData === null){
+    //   const data = await client.query("SELECT * FROM RESTAURANTS")
+    //   res.json({data:data.rows});
+    // }else{
+    //   const data = await client.query("SELECT * FROM RESTAURANTS WHERE id = $1", [
+    //     reqData
+    //   ]);
+    //   res.json({data:data.rows})
+    // }
+    const data = await client.query("SELECT * FROM RESTAURANTS WHERE id = $1", [
       reqData,
     ]);
     res.json(data.rows[0]);

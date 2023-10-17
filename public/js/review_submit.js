@@ -2,18 +2,20 @@ window.onload =    async() => {
   async function fakeLogin() {
   }
   fakeLogin()
-  const restName = new URLSearchParams(location.search);//URL = http://localhost:8080/html/review_submit.html?rest=MM
+  const restName = new URLSearchParams(location.search);
   const restNameData = restName.get("rest");
   restPic(restNameData)
   contentForm(restNameData);
 };
-async function restPic(i){
+async function restPic(mass){
   const restN = document.querySelector("#restaurantName");
-  restN.innerHTML = i;
-  const res = await fetch(`/restPic?rest=${i}`);
-  const resData = await res.json()
-  const restPic = document.querySelector("#restPic")
-  restPic.src = `/restPic/${resData.restaurant_image}`
+  
+  const dataRestInfo = await fetch(`/oneRestaurant?rest=${mass}`);
+
+  const restInfo = (await dataRestInfo.json());
+  restN.innerHTML =`<div>${restInfo.name}</div>`
+  const restPic = document.querySelector("#restIcon")
+ restPic.innerHTML =`<img src="${restInfo.photo}" id="restPic" class="circleImg"></img>`
 
 }
 
@@ -31,6 +33,12 @@ function contentForm(restName) {
       body: formData,
     });
   });
+  const myModal = document.getElementById('myModal')
+const myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
 }
 
 

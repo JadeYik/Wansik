@@ -39,6 +39,18 @@ app.use((req, _res, next) => {
   console.log(`Request Path: ${req.path}  Method: ${req.method}`)
   next();
 });
+
+
+const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
+  if (req.session.user) {
+      next();
+      return //after next() function should return value, or put else
+  }
+  // res.redirect("/");
+  res.status(401).json({ success: false, message: "Login false" })
+  console.log(isLoggedIn)
+  return
+}
 // authRoutes.use(app)
 //fake login
 // app.post("/login-dev", async (req, res) => {
@@ -118,8 +130,9 @@ app.post("/profile", async (req, res) => {
   })
 })
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", isLoggedIn, async (req, res) => {
 
+  console.log(req.session.user?.id)
   try {
     const profileReqData = await client.query(`SELECT * FROM users where id = $1;`, [req.session.user?.id])
     const historyReqData = await client.query(`SELECT * FROM appointment where user_id = $1;`, [req.session.user?.id])
@@ -130,7 +143,7 @@ app.get("/profile", async (req, res) => {
     res.json({ success: true, message: "success2",profileReq: profileReqData.rows[0], historyReq: historyReqData.rows })
   } catch (err) {
     console.log("Connot get the profile data")
-    res.json({ success: false, message: "Connot get the profile data" })
+    res.status(401).json({ success: false, message: "Connot get the profile data" })
   }
 
   // try {
@@ -239,6 +252,18 @@ app.get("/restaurant", async (req, res) => {
     res.json({ success: false, message: "Connot get the restaurants data" })
   }
 })
+
+// app.get("/login-state",async (req, res) =>{
+//   if (req.session.user) {
+//     res.json({})
+//     return //after next() function should return value, or put else
+// }
+
+
+// })
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 

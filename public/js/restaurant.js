@@ -25,7 +25,7 @@ async function getrestaurantData() {
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title" > ${newRestList.restaurant_name}</h5>
+              <h5 class="card-title" ><a href="/html/review.html?rest=${newRestList.id}"> ${newRestList.restaurant_name}</a></h5>
               <p class="card-text"><i class="fa-solid fa-location-dot"></i> ${newRestList.district}</p>
               <p class="card-text"><i class="fa-solid fa-map-location-dot"></i> ${newRestList.restaurant_address}</p>
               <p class="card-text"><i class="fa-solid fa-phone"></i> ${newRestList.restaurant_phone}</p>

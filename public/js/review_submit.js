@@ -1,11 +1,11 @@
-window.onload =    async() => {
-  async function fakeLogin() {
-  }
-  fakeLogin()
+window.onload =    async() => {try{
+
   const restName = new URLSearchParams(location.search);
   const restNameData = restName.get("rest");
   restPic(restNameData)
-  contentForm(restNameData);
+  contentForm(restNameData);}catch(err){
+    console.log(err)
+  }
 };
 async function restPic(mass){
   const restN = document.querySelector("#restaurantName");
@@ -13,9 +13,9 @@ async function restPic(mass){
   const dataRestInfo = await fetch(`/oneRestaurant?rest=${mass}`);
 
   const restInfo = (await dataRestInfo.json());
-  restN.innerHTML =`<div>${restInfo.name}</div>`
+  restN.innerHTML =`<div>${restInfo.restaurant_name}</div>`
   const restPic = document.querySelector("#restIcon")
- restPic.innerHTML =`<img src="${restInfo.photo}" id="restPic" class="circleImg"></img>`
+ restPic.innerHTML =`<img src="${restInfo.restaurant_image}" id="restPic" class="circleImg"></img>`
 
 }
 
@@ -31,13 +31,16 @@ function contentForm(restName) {
     const res = await fetch(`/reviewSubmit?rest=${restName}`, {
       method: "POST",
       body: formData,
-    });
+    })  
+    location.replace(`/html/review.html?rest=${restName}`);
+    // location.reload();
   });
   const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 
 myModal.addEventListener('shown.bs.modal', () => {
   myInput.focus()
+
 })
 }
 

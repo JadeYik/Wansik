@@ -91,7 +91,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////Login system//////////////////////////////////////////////////
 app.post("/profile", async (req, res) => {
 
@@ -365,7 +364,8 @@ app.get("/review", async (req, res) => {
     review.time_of_review, 
     review.review_content, 
     review.title,
-    restaurants.name as restaurants_name,
+    restaurants.restaurant_name as restaurants_name,
+    review.restaurant_id,
     users.name as user_name,
     users.profile_image  as user_profile_image
     FROM review
@@ -380,7 +380,8 @@ app.get("/review", async (req, res) => {
     review.time_of_review, 
     review.review_content, 
     review.title,
-    restaurants.name as restaurants_name,
+    restaurants.restaurant_name as restaurants_name,
+    review.restaurant_id,
     users.name as user_name,
     users.profile_image  as user_profile_image
     FROM review

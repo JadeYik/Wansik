@@ -66,7 +66,7 @@ if(mass){
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"> ${restInfo.restaurant_name}</h5>
+        <h5 class="card-title"><a href="/html/review?rest=${review.restaurants_id}"> ${restInfo.restaurant_name}</a></h5>
         <p class="card-text"><i class="fa-solid fa-location-dot"></i> ${restInfo.district}</p>
         <p class="card-text"><i class="fa-solid fa-map-location-dot"></i> ${restInfo.restaurant_address}</p>
         <p class="card-text"><i class="fa-solid fa-phone"></i> ${restInfo.restaurant_phone}</p>
@@ -90,6 +90,7 @@ if(mass){
       const photoPath = review.image_upload.startsWith("https://")
         ? review.image_upload
         : `/uploads/${review.image_upload}`;
+        console.log(review.restaurant_id)
       reviewContainer.innerHTML += `
       <div class="reviewCard card">
         <div class="row">

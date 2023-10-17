@@ -5,8 +5,11 @@ import formidable from 'formidable'
 import fs from 'fs'
 import { client } from "./db";
 import expressSession from "express-session";
-// import {authRoutes} from "./authRoutes"
 import { User } from "./models";
+
+//////by Review
+import { format } from "date-fns";
+
 const app = express();
 
 
@@ -72,7 +75,7 @@ app.post("/login", async (req, res) => {
 
   if (!email|| !password) {
   
-    res.status(400).json({ success: false, message: "missing username or password" });
+    res.status(400).json({ success: false, message: "missing email or password" });
     return;
   }
 
@@ -235,7 +238,6 @@ app.put("/profile/:id", async (req, res) => {
 
 
 
-
 // Serve static files from the 'public' directory
 
 app.get("/restaurant", async (req, res) => {
@@ -266,6 +268,146 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("usericon", express.static(path.join(__dirname, 'usericon')));
 
 
+
+/////////////////////////////////////Review
+const uploadDir = "public/uploads";
+fs.mkdirSync(uploadDir, { recursive: true });
+
+
+
+app.post("/reviewSubmit", async (req, res) => {
+  try {
+    // "dial-in" to the postgres server
+    let counter = 0;
+    const userNameID = req.session.user?.id;
+    const restaurantID = req.query.rest;
+    const form = formidable({
+      uploadDir,
+      keepExtensions: true,
+      maxFiles: 20,
+      maxFileSize: 200 * 1024 ** 3,
+      filename: (_originalName, _originalExt, part, _form) => {
+        let fieldName = part.name;
+        let timestamp = Date.now();
+        let ext = part.mimetype?.split("/").pop();
+        counter++;
+        return `${fieldName}-${timestamp}-${counter}.${ext}`;
+      },
+
+      filter: (part) => part.mimetype?.startsWith("image/") || false,
+    });
+
+    form.parse(req, async (err, fields, files) => {
+      const rest = [
+        fields.content,
+        format(new Date(), "MM/dd/yyyy"),
+        format(new Date(), "HH:mm"),
+        userNameID,
+        restaurantID,
+        (files.image as formidable.File)?.newFilename,
+        fields.title,
+        fields.cleanR,
+        fields.tasteR,
+        fields.serR,
+        fields.envR,
+        fields.cpR,
+        fields.totalR,
+      ];
+
+      await client.query(
+        "INSERT INTO review (review_content,date_of_review,time_of_review,user_id,restaurant_id,image_upload,title,clean_rank,taste_rank,service_rank,environment_rank,cp_rank,total_rank) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)",
+        rest
+      );
+    });
+    res.json({ success: "true" });
+  } catch (err) {
+    res.json({ success: "false", error: err + "" });
+  }
+});
+// app.get("/reviewTotal/rest/:restData/q/:quantity/p/:page", async (req, res) => {  try {
+
+//   const quantity = +(req.params.quantity as string);
+//   const page = +(req.params.page as string);
+ 
+//   const restaurantName = (req.params.restData as String);
+//   const restaurantIdJson = await client.query(`SELECT id FROM RESTAURANTS WHERE NAME = $1`, [restaurantName,]);
+//   const restaurantId = restaurantIdJson.rows[0].id
+//   console.log(restaurantId)
+//   if (restaurantName !="All"){
+//     const rowsData = await client.query(`SELECT count(*) FROM review where restaurant_id =$1;`,[restaurantId,]);
+//     const rowsDataValue = Math.ceil(+rowsData.rows[0].count / quantity);
+//     res.json({ reviewNumbers: rowsDataValue });
+//   } else{
+//   const rowsData = await client.query(`SELECT count(*) FROM review;`);
+//   const rowsDataValue = Math.ceil(+rowsData.rows[0].count / quantity);
+//   res.json({ reviewNumbers: rowsDataValue });}
+// } catch (err) {
+//   // }
+//   res.json({ success: "false", error: err + "" });
+// }});
+
+
+
+app.get("/review", async (req, res) => {
+  try {
+
+    const restaurantID = req.query.rest;
+    console.log(restaurantID)
+    if (restaurantID){
+      console.log("true")
+    const data = await client.query(`SELECT 
+    review.image_upload, 
+    review.date_of_review, 
+    review.time_of_review, 
+    review.review_content, 
+    review.title,
+    restaurants.name as restaurants_name,
+    users.name as user_name,
+    users.profile_image  as user_profile_image
+    FROM review
+    inner join users on users.id = review.user_id
+    inner join restaurants on restaurants.id = review.restaurant_id where restaurants.id ='${restaurantID}'`);//where ${restaurantId}LIMIT ${quantity} OFFSET ${nowPageOffset}
+    res.json({ reviewData: data.rows })
+  } else{
+
+      console.log("true")
+    const data = await client.query(`SELECT 
+    review.image_upload, 
+    review.date_of_review, 
+    review.time_of_review, 
+    review.review_content, 
+    review.title,
+    restaurants.name as restaurants_name,
+    users.name as user_name,
+    users.profile_image  as user_profile_image
+    FROM review
+    inner join users on users.id = review.user_id
+    inner join restaurants on restaurants.id = review.restaurant_id`);
+      res.json({ reviewData: data.rows });}//
+  } catch (err) {
+    // }
+
+    res.json({ success: "false", error: err + "" });
+  }
+});
+app.get("/restPic", async (req, res) => {
+  try {
+    const reqData = req.query.rest;
+    const data = await client.query("SELECT Restaurant_image FROM RESTAURANTS WHERE NAME = $1", [
+      reqData,
+    ]);
+    res.json(data.rows[0]);
+  } catch (err) {
+    res.json({ success: "false", error: err + "" });
+  }
+});
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Define routes handler
 app.get('/profile', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public/html', 'profile.html'));

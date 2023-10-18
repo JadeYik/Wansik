@@ -15,6 +15,13 @@
     height: 100px;
 }
 
+.login-btn,.logout-btn{
+    background-color: #E7A243;
+    border: 1px black solid;
+    font-weight: bold;
+}
+
+
 .user-infor {
     display: flex;
     text-align: center;
